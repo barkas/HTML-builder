@@ -15,14 +15,27 @@ const copyDir = async function (input, output) {
   await fs.mkdir(output, { recursive: true }, (err) => {
     if (err) return console.error(err);
   });
-  const files = await fs.readdir(input);
+  const files = await fs.readdir(input, { withFileTypes: true });
   for (const file of files) {
-    try {
-      await fs.copyFile(path.resolve(input, file), path.resolve(output, file));
-    } catch (err) {
-      console.error(err);
+    if (file.isFile()) {
+      try {
+        await fs.copyFile(
+          path.resolve(input, file.name),
+          path.resolve(output, file.name),
+        );
+      } catch (err) {
+        console.error(err);
+      }
+    } else {
+      // console.log('dir:', file);
+      await copyDir(
+        path.resolve(input, file.name),
+        path.resolve(output, file.name),
+      );
     }
   }
 };
 
 copyDir(inputdir, outputdir);
+
+module.exports = copyDir;
