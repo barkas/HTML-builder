@@ -27,7 +27,6 @@ const copyDir = async function (input, output) {
         console.error(err);
       }
     } else {
-      // console.log('dir:', file);
       await copyDir(
         path.resolve(input, file.name),
         path.resolve(output, file.name),
@@ -37,5 +36,3 @@ const copyDir = async function (input, output) {
 };
 
 copyDir(inputdir, outputdir);
-
-module.exports = copyDir;

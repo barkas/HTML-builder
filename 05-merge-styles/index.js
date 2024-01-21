@@ -20,5 +20,3 @@ const inputdir = path.join(__dirname, 'styles');
 const output = path.join(__dirname, 'project-dist', 'bundle.css');
 
 build(inputdir, output);
-
-module.exports = build;
